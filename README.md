@@ -28,7 +28,7 @@ ee_url
 ## Bring up nodes
 
 ```
-vagrant up centos-ucp-node1 centos-ucp-node2 centos-ucp-node3 centos-ucp-node4 centos-ucp-node5
+vagrant up centos-node
 ```
 
 ## Configure Device Mapper

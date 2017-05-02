@@ -14,11 +14,11 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
 
     # Docker EE node for CentOS 7.3
-    config.vm.define "centos-ucp-node1" do |centos_ucp_node1|
+    config.vm.define "centos-node" do |centos_node|
       disk = './vagrant-disk.vdi'
-      centos_ucp_node1.vm.box = "centos/7"
-      centos_ucp_node1.vm.network "private_network", type: "dhcp"
-      centos_ucp_node1.vm.hostname = "centos-ucp-node1"
+      centos_node.vm.box = "centos/7"
+      centos_node.vm.network "private_network", type: "dhcp"
+      centos_node.vm.hostname = "centos-node"
       config.vm.provider :virtualbox do |vb|
         unless File.exist?(disk)
           vb.customize ['createhd', '--filename', disk, '--variant', 'Fixed', '--size', 20 * 1024]
@@ -26,9 +26,9 @@ Vagrant.configure(2) do |config|
         vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
         vb.customize ["modifyvm", :id, "--memory", "2048"]
         vb.customize ["modifyvm", :id, "--cpus", "2"]
-        vb.name = "centos-ucp-node1"
+        vb.name = "centos-node"
       end
-      centos_ucp_node1.vm.provision "shell", inline: <<-SHELL
+      centos_node.vm.provision "shell", inline: <<-SHELL
         sudo yum -y remove docker
         sudo yum -y remove docker-selinux
         sudo yum -y install ntpdate git
