@@ -33,23 +33,6 @@ vagrant up centos-node
 
 ### Validate Docker Device Mapper Config
 
-Before properly configuring Docker with Device Mapper:
-
-```
-[vagrant@centos-node ~]$ docker info
-Containers: 0
- Running: 0
- Paused: 0
- Stopped: 0
-Images: 0
-Server Version: 1.13.1-cs2
-Storage Driver: overlay
- Backing Filesystem: xfs
- Supports d_type: true
-Logging Driver: json-file
-...
-```
-
 After properly configuring Docker with Device Mapper:
 
 ```
