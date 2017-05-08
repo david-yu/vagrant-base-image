@@ -28,19 +28,13 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--cpus", "2"]
         vb.name = "centos-node"
       end
-      centos_node.vm.provision "shell", inline: <<-SHELL
+        centos_node.vm.provision "shell", inline: <<-SHELL
         sudo yum -y remove docker
         sudo yum -y remove docker-selinux
-        sudo yum -y install ntpdate git
+        sudo yum -y install ntpdate net-tools
         sudo ntpdate -s time.nist.gov
-        # configure devicemapper
-        sudo yum install -y lvm2
-        sudo pvcreate /dev/sdb
-        sudo vgcreate docker /dev/sdb
-        sudo lvcreate --wipesignatures y -n thinpool docker -l 95%VG
-        sudo lvcreate --wipesignatures y -n thinpoolmeta docker -l 1%VG
-        sudo lvconvert -y --zero n -c 512K --thinpool docker/thinpool --poolmetadata docker/thinpoolmeta
-        # install docker ee
+        sudo cp /vagrant/scripts/install_ee.sh .
+        sudo chmod +x install_ee.sh
         # create base image
         git clone https://github.com/moby/moby.git
      SHELL
