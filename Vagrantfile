@@ -38,6 +38,7 @@ Vagrant.configure(2) do |config|
         ./install_ee.sh
         # create base image
         git clone https://github.com/moby/moby.git
+        sudo ./moby/contrib/mkimage-yum.sh centos-image
      SHELL
     end
 

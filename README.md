@@ -67,6 +67,15 @@ Cgroup Driver: cgroupfs
 ...
 ```
 
+## Validate base image is createhd
+```
+[vagrant@centos-base-image contrib]$ docker run -i -t --rm centos-image:7.3.1611 /bin/bash -c 'echo success'
+success
+[vagrant@centos-base-image contrib]$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos-image        7.3.1611            d96f1e3cd98f        16 seconds ago      265 MB
+```
+
 ## Stop nodes
 
 ```
