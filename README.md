@@ -33,7 +33,7 @@ vagrant up centos-node
 
 ### Validate Docker Device Mapper Config
 
-After properly configuring Docker with Device Mapper:
+The install script that is run from provisioning the node will automatically install Docker EE and configure devicemapper for you.
 
 ```
 [vagrant@centos-node ~]$ docker info
@@ -67,7 +67,10 @@ Cgroup Driver: cgroupfs
 ...
 ```
 
-## Validate base image is createhd
+## Validate base image is created
+
+You can also validate that a base image has been created for CentOS.
+
 ```
 [vagrant@centos-base-image contrib]$ docker run -i -t --rm centos-image:7.3.1611 /bin/bash -c 'echo success'
 success
