@@ -14,11 +14,11 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
 
     # Docker EE node for CentOS 7.3
-    config.vm.define "centos-node" do |centos_node|
-      disk = './vagrant-disk.vdi'
+    config.vm.define "centos-base-image" do |centos_node|
+      disk = './vagrant-base-image-disk.vdi'
       centos_node.vm.box = "centos/7"
       centos_node.vm.network "private_network", type: "dhcp"
-      centos_node.vm.hostname = "centos-node"
+      centos_node.vm.hostname = "centos-base-image"
       config.vm.provider :virtualbox do |vb|
         unless File.exist?(disk)
           vb.customize ['createhd', '--filename', disk, '--variant', 'Fixed', '--size', 20 * 1024]
@@ -26,15 +26,16 @@ Vagrant.configure(2) do |config|
         vb.customize ['storageattach', :id,  '--storagectl', 'IDE', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
         vb.customize ["modifyvm", :id, "--memory", "2048"]
         vb.customize ["modifyvm", :id, "--cpus", "2"]
-        vb.name = "centos-node"
+        vb.name = "centos-base-image"
       end
         centos_node.vm.provision "shell", inline: <<-SHELL
         sudo yum -y remove docker
         sudo yum -y remove docker-selinux
-        sudo yum -y install ntpdate net-tools
+        sudo yum -y install ntpdate net-tools git
         sudo ntpdate -s time.nist.gov
         sudo cp /vagrant/scripts/install_ee.sh .
         sudo chmod +x install_ee.sh
+        ./install_ee.sh
         # create base image
         git clone https://github.com/moby/moby.git
      SHELL
